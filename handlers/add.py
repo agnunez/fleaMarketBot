@@ -34,18 +34,18 @@ def add(bot, update, user_data):
     user = update.message.from_user
     if not user.username:
         update.message.reply_text(
-            'У тебя не установлено имя пользователя.\n'
-            'Я буду рассылать это объявление другим пользователями и им будет приятнее видеть различаемый логин, '
-            'вместо безликого id, вроде @%s.\n\n'
-            'Пожалуйста, установи себе логин и я с радостью помогу опубликовать товар.\n'
-            'Это нужно сделать один раз в настройках пользователя, вся процедура займёт не больше минуты.'
+            'You have no username set.\n'
+            'I will send this announcement to other users and they will be more pleased to see a distinguished login,'
+            'instead of a faceless id like @% s.\n\n'
+            'Please, set yourself a username and I will be happy to help publish the product.\n'
+            'This needs to be done once in the user settings, the whole procedure will take no more than a minute.'
             % user.id
         )
         return
 
     user_data['base'] = database()
     update.message.reply_text(
-        'Чтобы добавить товар на продажу, напишите его название. Если передумали, в любой момент можно написать /cancel',
+        'To add a product for sale, write its name. If you change your mind, you can write / cancel at any time',
         reply_markup=ReplyKeyboardRemove())
     Items.create_item(user.id, user.username)
 
@@ -59,7 +59,7 @@ def name(bot, update):
     logger.info("Item name: %s" % (itemName))
     Items.add_name(user.id, itemName)
 
-    update.message.reply_text('Отлично! Теперь напишите описание товара. Не забудьте указать количество и цену!',
+    update.message.reply_text("Excellent! Now write your product description. Don't forget to include the quantity and price!",
                               reply_markup=ReplyKeyboardRemove())
 
     return DESCRIPTION
@@ -74,7 +74,7 @@ def description(bot, update):
     logger.info("Item description: %s" % (itemDescription))
     Items.add_description(user.id, itemDescription)
 
-    update.message.reply_text('Последний шаг. Отправте фото товара, или нажмите "skip", чтобы пропустить фото.',
+    update.message.reply_text('Last step. Send a photo of the product, or click "skip" to skip the photo.',
                               reply_markup=ReplyKeyboardMarkup(
                                   reply_keyboard,
                                   one_time_keyboard=True,
@@ -107,12 +107,12 @@ def skip_photo(bot, update):
 
 
 def cancel(bot, update, user_data):
-    """interupt adding"""
+    """interrupt adding"""
     user = update.message.from_user
     del user_data['base']
     logger.info("User %s cancel :(" % (user.first_name,))
     Items.del_item(user.id)
-    update.message.reply_text('Окей, отменил.', reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text('Ок, canceled.', reply_markup=ReplyKeyboardRemove())
 
     return ConversationHandler.END
 
@@ -123,7 +123,7 @@ def publish(bot, update, user_data):
     item = Items.del_item(user.id)
     user_data['base'].item.save(item)
     del user_data['base']
-    update.message.reply_text('Товар добавлен!', reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text('Product added!', reply_markup=ReplyKeyboardRemove())
 
     newItem = database().item.get(userID=update.message.from_user.id, orderBy=desc(Item.id), limit=1, all=False)
     Notifier(bot, newItem).run()

@@ -14,7 +14,7 @@ NAME, DESCRIPTION, PHOTO, PUBLISH = range(4)
 def list_items(bot, update):
     items = database().item.get(userID=update.message.from_user.id)
     if len(items) == 0:
-        update.message.reply_text('У тебя нет активных товаров. Хочешь создать? Пиши /add')
+        update.message.reply_text('You have no active items. Do you want to create one? Type /add')
         return
 
     send_items(update, items)
@@ -35,12 +35,12 @@ def edit(bot, update, groups, user_data):
     id = groups[0]
     item = database().item.get(id=id, userID=update.message.from_user.id, all=False)
     if item is None:
-        update.message.reply_text('Товар с идентификатором "%s" не найден' % id)
+        update.message.reply_text('Product ID "%s"not found' % id)
         return
 
     user_data['item'] = item
-    update.message.reply_text('В сообщении ниже находится текущее имя товара. '
-                              'Напишите новое, или нажмите /skip, чтобы оставить его без изменений\n')
+    update.message.reply_text('The message below contains the current name of the product. '
+                              'Write a new one, or press /skip to leave it unchanged\n')
     update.message.reply_text(item.itemName,
                               reply_markup=ReplyKeyboardMarkup(
                                   reply_keyboard,
@@ -68,8 +68,8 @@ def skip_name(bot, update, user_data):
     reply_keyboard = [['/skip', ]]
 
     item = user_data['item']
-    update.message.reply_text('Отлично! В сообщении ниже находится текущее описание. '
-                              'Напишите новое, или нажмите /skip, чтобы оставить его без изменений\n')
+    update.message.reply_text('Excellent! The message below contains the current description. '
+                              'Write a new one, or press /skip to leave it unchanged\n')
     update.message.reply_text(item.itemDescription,
                           reply_markup=ReplyKeyboardMarkup(
                               reply_keyboard,
@@ -96,8 +96,8 @@ def skip_description(bot, update, user_data):
     reply_keyboard = [['/skip', ]]
     item = user_data['item']
 
-    update.message.reply_text('Последний шаг. Отправьте фото товара, или нажмите /skip, '
-                              'чтобы оставить существующее без изменений.',
+    update.message.reply_text('Last step. Send a photo of the product, or click /skip, '
+                              'to leave the existing one unchanged.',
                               reply_markup=ReplyKeyboardMarkup(
                                   reply_keyboard,
                                   one_time_keyboard=True,
@@ -130,7 +130,7 @@ def cancel(bot, update, user_data):
     user = update.message.from_user
     del user_data['item']
     logger.info("User %s cancel editing" % (user.first_name,))
-    update.message.reply_text('Окей, отменил.', reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text('Ok, canceled.', reply_markup=ReplyKeyboardRemove())
 
     return ConversationHandler.END
 
@@ -139,7 +139,7 @@ def pre_publish(bot, update, user_data):
     """check item before publish"""
     item = user_data['item']
     reply_keyboard = [['/save', '/cancel', ]]
-    update.message.reply_text('Все верно?\n' + item.decorator().get_info(separator='\n'),
+    update.message.reply_text('Ok?\n' + item.decorator().get_info(separator='\n'),
                               reply_markup=ReplyKeyboardMarkup(
                                   reply_keyboard,
                                   one_time_keyboard=True,
@@ -151,6 +151,6 @@ def publish(bot, update, user_data):
     """publish item"""
     item = user_data['item']
     database().item.save(item)
-    update.message.reply_text('Товар сохранен!', reply_markup=ReplyKeyboardRemove())
+    update.message.reply_text('Item saved!', reply_markup=ReplyKeyboardRemove())
 
     return ConversationHandler.END

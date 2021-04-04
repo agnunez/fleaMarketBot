@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 """
@@ -21,20 +21,20 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-    # Базовые команды
+    # Basic commands
     dp.add_handler(CommandHandler("start", start.start))
     dp.add_handler(CommandHandler("help", help.help))
 
-    # Просмотр
+    # View
     dp.add_handler(CommandHandler("list", list.all))
     #dp.add_handler(CommandHandler("view", view.all_items)) # so many messages
     dp.add_handler(RegexHandler('^\/view(\d+).*', view.item, pass_groups=True))
 
-    # Подписка
+    # Subscription
     dp.add_handler(CommandHandler("subscribe", subscription.activate))
     dp.add_handler(CommandHandler("unsubscribe", subscription.deactivate))
 
-    # Добавление
+    # Adding
     dp.add_handler(ConversationHandler(
         entry_points=[CommandHandler('add', add.add, pass_user_data=True)],
 
@@ -48,7 +48,7 @@ def main():
         fallbacks=[CommandHandler(u'cancel', add.cancel, pass_user_data=True)]
     ))
 
-    # Редактирование
+    # Editing
     dp.add_handler(CommandHandler("edit", edit.list_items))
 
     edit_handler = ConversationHandler(
@@ -71,11 +71,11 @@ def main():
     )
     dp.add_handler(edit_handler)
 
-    # Удаление
+    # Deleting
     dp.add_handler(CommandHandler("delete", delete.list_items))
     dp.add_handler(RegexHandler(u'^\/delete(\d+).*', delete.delete_item, pass_groups=True))
 
-    # Другое
+    # Other
     dp.add_handler(RegexHandler(u'.*(\s|\W|^)(С|с)т(и|і)л{1,2}(и|і)(\s|\W|$).*', jokes.stilli))
     dp.add_handler(CommandHandler("support", support.support))
 

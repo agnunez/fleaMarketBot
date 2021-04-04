@@ -10,7 +10,7 @@ from handlers.system import silence_keeper
 def all(bot, update):
     items = database().item.get()
     if len(items) == 0:
-        update.message.reply_text('Нет ни одного товара')
+        update.message.reply_text('There are no products.')
         return
 
     send_items(update, items)
@@ -20,7 +20,7 @@ def all(bot, update):
 def my_items(bot, update):
     items = database().item.get(userID=update.message.from_user.id)
     if len(items) == 0:
-        update.message.reply_text('У тебя нет ни одного товара. Пиши /add, чтобы добавить')
+        update.message.reply_text("You don't have any products. Type /add to add")
         return
 
     send_items(update, items)

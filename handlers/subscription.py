@@ -11,14 +11,14 @@ def activate(bot, update):
     chatID = update.message.chat_id
 
     if database().subscription.get(chatID=chatID, all=False):
-        update.message.reply_text('Подписка уже активна. Скажи /unsubscribe, чтобы отписаться')
+        update.message.reply_text('The subscription is already active. Say /unsubscribe to unsubscribe')
         return
 
     subscription = Subscription(chatID)
     database().subscription.save(subscription)
-    update.message.reply_text('Подписка активирована. При добавлении нового объявления другим учатником, ты получишь '
-                              'уведомление в этом чате и сможешь забрать крутую штукень первым!'
-                              '\n\nЕсли уведомления тебе станут неинтересными - скажи /unsubscribe, чтобы отписаться.')
+    update.message.reply_text('Subscription enabled, you will receive notes with offers from other members'
+                              'in this chat and you can pick up the cool thing first!'
+                              '\n\ntype /unsuscribe if you want to stop further notifications.')
 
 
 @silence_keeper
@@ -26,11 +26,11 @@ def deactivate(bot, update):
     chatID = update.message.chat_id
 
     subscription = database().subscription.get(chatID=chatID, all=False)
-    if not subscription: update.message.reply_text('Это странно, но ты и так не подписан.')
+    if not subscription: update.message.reply_text("Sorry, you are not signed yet")
 
     database().subscription.unsubscribe(chatID)
-    update.message.reply_text('Подписка деактивировна. Надеюсь, ты нашел всё, чего тебе не хватало!'
-                              '\n\nЕсли соскучишься за новыми штуками - скажи /subscribe, я снова буду тебе спамить :)')
+    update.message.reply_text('Subscription cancelled. Hope you found it interesting!'
+                              '\n\nPlease, comment your suggestions, will be taken into account :)')
 
 
 class Notifier:

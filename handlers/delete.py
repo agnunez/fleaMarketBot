@@ -12,11 +12,11 @@ def delete_item(bot, update, groups):
     id = groups[0]
     item = database().item.get(id=id, userID=update.message.from_user.id, all=False)
     if item is None:
-        update.message.reply_text('Товар с идентификатором "%s" не найден' % id)
+        update.message.reply_text('Product with ID "%s" not found' % id)
         return
 
     item.is_active = False
-    update.message.reply_text('Товар "%s" был удалён' % item.decorator().get_title())
+    update.message.reply_text('Item "%s" has been deleted' % item.decorator().get_title())
     database().item.save(item)
 
 
@@ -24,7 +24,7 @@ def delete_item(bot, update, groups):
 def list_items(bot, update):
     items = database().item.get(userID=update.message.from_user.id)
     if len(items) == 0:
-        update.message.reply_text('У тебя нет активных товаров. Хочешь создать? Пиши /add')
+        update.message.reply_text('You have no active items. Do you want to create one? Type /add')
         return
 
     send_items(update, items)
