@@ -45,7 +45,7 @@ def add(bot, update, user_data):
 
     user_data['base'] = database()
     update.message.reply_text(
-        'To add a product for sale, write its name. If you change your mind, you can write / cancel at any time',
+        'To add a product for sale or share, write its name. If you change your mind, you can write /cancel at any time',
         reply_markup=ReplyKeyboardRemove())
     Items.create_item(user.id, user.username)
 
