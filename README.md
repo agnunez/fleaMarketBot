@@ -5,19 +5,19 @@ Bot framework https://github.com/python-telegram-bot/python-telegram-bot
 
 # How to start
 
-## Окружение
+## Environment
 
-Создать `db.py`:
+Create `db.py`:
 
 
 ```python
-# Telegram API token. Напишите @BotFather, чтобы получить
+# Telegram API token. talk to @BotFather to get
 token = ''
 
-# DSN строка для подключения к БД
+# DSN string for connecting to database
 db = 'sqlite:/path/to/database/file'
 
-# Список идентификаторов чатов, в которых бот всегда будет предлагать общаться в ЛС
+# List of chat IDs in which the bot will always offer to communicate in LAN
 silent_chats = []
 ```
 
@@ -26,19 +26,23 @@ silent_chats = []
 ```
 /setcommands
 
-help - показать это сообщение
-list - показать список из названий товаров, которые сейчас продаются
-subscribe - подписаться на новые товары
-unsubscribe - отписаться от рассылки новых товаров
-add - добавить свой товар
-edit - отредактировать свой товар
-delete - удалить свой товар
-support - спросить поддержку
-```
+help - show this message 
+list - show a list of product names that are currently on sale
+subscribe - subscribe to new products newsletter
+unsubscribe - unsuscribe from the newsletter of new products
+add - add your product
+edit - edit your product
+delete - delete your product
+support - ask for support
+...
 
 
 # Roadmap
 
- - Регулярная проверка актуальности
- - Улучшить дизайн сообщений, возможно применить Markdown
- - Банлист
+   - Regular check of relevance
+  - Improve post design, possibly apply Markdown
+  - Banlist
+
+# Translation
+
+- English translation @agnuca, github.com/agnunez/fleaMarketBots
