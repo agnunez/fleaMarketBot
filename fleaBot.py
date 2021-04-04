@@ -7,7 +7,7 @@ Flea market bot
 from telegram.ext import Updater, CommandHandler, RegexHandler, ConversationHandler, MessageHandler, Filters
 
 import config
-from handlers import add, edit, list, subscription, help, delete, view, start, jokes, support
+from handlers import add, edit, list, subscription, help, delete, view, start, jokes, support, system
 from log import *
 
 
@@ -16,7 +16,7 @@ def error(bot, update, error):
 
 
 def main():
-    updater = Updater(config.token)
+    updater = Updater(config.token, use_context=False)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
