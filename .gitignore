@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 config.py
 bootbot.sh
+fleaMarket.db
 
 # IntelliJ project files
 .idea
